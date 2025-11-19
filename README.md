@@ -20,7 +20,7 @@ The core of the simulator is its ability to precisely model different casino rul
     * **Resplitting Aces (RSA):** Configurable limits on resplitting.
     * **Surrender:** Late surrender option can be enabled.
     * **Hole Card Peek:** Implements the dealer checking for Blackjack (when an Ace or 10-value card is exposed).
-    * **Blackjack Payout:** Standard 3:2 payout is default, but customizable (e.g., 6:5).
+    * **Blackjack Payout:** Standard 3:2 payout is default
 
 ### 📈 Live & Per-Decision Analytics
 
