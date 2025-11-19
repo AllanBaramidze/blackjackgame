@@ -27,7 +27,7 @@ The core of the simulator is its ability to precisely model different casino rul
 Provides players with the tools to make mathematically optimal decisions in real-time within the simulation environment.
 
 * **Decision Outcomes:** Calculates and displays the **Win/Push/Loss odds** for the current hand/decision.
-* **Expected Values (EVs):** Provides the **Action EVs** for all available moves: **Hit, Stand, Double Down, Split, and Surrender**. This is the key metric for optimal strategy evaluation.
+* **Expected Values (EVs):** Provides the **Action EVs** for all available moves: **Hit, Stand, Double Down, Split, and Surrender**.
 * **Live Card Counting:** Integrates a **Running Count** and **True Count** calculator.
     * **Initial Implementation:** The widely used **Hi-Lo** system is the initial counter.
     * **Extensibility:** Designed to easily integrate other counting systems (e.g., KO, Omega II).
