@@ -1,9 +1,9 @@
 import pygame
 import sys
-from input_elements import InputBox
 import pygame_widgets
-from pygame_widgets.slider import Slider
-from pygame_widgets.textbox import TextBox
+from input_elements import InputBox, Text, InputSlider
+
+
 
 #consts
 SCREEN_WIDTH = 1500
@@ -12,33 +12,15 @@ FPS = 60
 BACKGROUND_COLOR = "#35654d"
 TEXT_COLOR = (0, 0, 0)
 
-class Text:
-    def __init__(self, text, font, color, initial_y, initial_x, centered=True):
-        self.text = text
-        self.font = font
-        self.color = color
-        self.initial_y = initial_y
-        self.initial_x = initial_x
-        self.centered = centered
-        self.surface = self.font.render(self.text, True, self.color)
-        self.rect = self.surface.get_rect()
-        self.rect.y = self.initial_y
-        if self.centered:
-            pass
-        else:
-            self.rect.x = self.initial_x
 
-    def draw(self, screen):
-        if self.centered:
-            self.rect.centerx = screen.get_rect().centerx
-        screen.blit(self.surface, self.rect)
 
 #pygame setup
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.RESIZABLE)
 pygame.display.set_caption("Blackjack Simulator Statistics")
 clock = pygame.time.Clock()
-#default font
+
+#fonts
 text_font = pygame.font.SysFont("Arial", 50, bold=True)
 smaller_font = pygame.font.SysFont("Arial", 35, bold=True)
 
@@ -47,17 +29,17 @@ header_text = Text("BlackJack Simulator", text_font, TEXT_COLOR, 35, 0, True)
 table_heading2 = Text("Table", text_font, TEXT_COLOR, 155,0, True)
 startingcap_heading2 = Text("Starting Capital", smaller_font, TEXT_COLOR, 135, 200, False)
 decks_heading2 = Text("Decks", smaller_font, TEXT_COLOR, 275, 250, False)
-decks_output = TextBox(screen, 400, 200, 50, 50, font = smaller_font)
 players_heading2 = Text("Players", smaller_font, TEXT_COLOR, 400, 234, False)
-players_output = TextBox(screen, 400, 400, 50, 50, font = smaller_font)
-
-decks_output.disable()
-players_output.disable()
 
 #inputs
 startingcap_input = InputBox(40, 138, 140, 35, 30, " ")
-deck_slider = Slider(screen, 150, 275, 800, 40, min=1, max=7)
-player_slider = Slider(screen, 150, 400, 800, 40, min=0, max=7)
+
+#slider
+slider_width = 800
+start_x = (SCREEN_WIDTH - slider_width) // 2
+center_y = SCREEN_HEIGHT // 2
+decks_slider = InputSlider(screen=screen,x = start_x,y = center_y,width = slider_width, height = 40, min_val = 1, max_val = 7, initial_value= 1)
+
 
 #game
 running = True
@@ -73,9 +55,10 @@ while running:
             screen = pygame.display.set_mode((new_width, new_height), pygame.RESIZABLE)
 
         startingcap_input.handle_event(event)
+    current_deck = decks_slider.update_logic()
 
-    decks_output.setText(deck_slider.getValue())
-    players_output.setText(player_slider.getValue())
+
+
 
     #draws
     screen.fill(BACKGROUND_COLOR)

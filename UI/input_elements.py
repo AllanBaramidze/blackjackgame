@@ -1,7 +1,9 @@
 import pygame
 import pygame_widgets
 from pygame_widgets.slider import Slider
+from pygame_widgets.button import Button
 from pygame_widgets.textbox import TextBox
+
 
 #consts
 TEXT_COLOUR = (0, 0, 0) #black
@@ -14,6 +16,26 @@ SLIDER_HEIGHT = 8 #thickness of line
 HANDLE_SIZE = 16 #diameter of dot
 HOVER_TEXT_OFFSET = 30 #distance of text above handle
 
+class Text:
+    def __init__(self, text, font, color, initial_y, initial_x, centered=True):
+        self.text = text
+        self.font = font
+        self.color = color
+        self.initial_y = initial_y
+        self.initial_x = initial_x
+        self.centered = centered
+        self.surface = self.font.render(self.text, True, self.color)
+        self.rect = self.surface.get_rect()
+        self.rect.y = self.initial_y
+        if self.centered:
+            pass
+        else:
+            self.rect.x = self.initial_x
+
+    def draw(self, screen):
+        if self.centered:
+            self.rect.centerx = screen.get_rect().centerx
+        screen.blit(self.surface, self.rect)
 
 class InputBox:
     def __init__(self, x, y, width, height, font, text=''):
@@ -62,8 +84,42 @@ class InputBox:
             screen.blit (self.text_surface, (self.rect.x + 5, self.rect.y +text_y_padding))
 
 class InputSlider:
-    def __init__(self, min, max, initial_value, colour):
-        self.min = min
-        self.max = max
-        self.initial_value = initial_value
-        self.colour = colour
+    def __init__(self, screen, x, y, width, height, min_val, max_val, initial_value):
+        self.slider = Slider(
+            screen = screen,
+            x=x,
+            y=y,
+            width=width,
+            height=height,
+            min=min_val,
+            max=max_val,
+            initial=initial_value,
+            step=1,
+            color=INACTIVE_COLOUR,
+            handleColour=SLIDER_ACTIVE_COLOUR,
+        )
+
+        output_x = x + width // 2 - 25 # centered above slider
+        output_y = y - 60
+        self.output_label = TextBox(
+            screen=screen,
+            x=output_x,
+            y=output_y,
+            width=50,
+            height=50,
+            fontSize=20,
+            color=TEXT_COLOUR,
+        )
+
+        self.output_label.disable()
+
+    def update_logic(self):
+        """reads current slider values and updates slider label"""
+        #get current val. from slider, rounded
+        current_value = int(self.slider.getValue())
+
+        self.output_label.setText(str(current_value))
+        return current_value
+
+    def get_value(self):
+        return self.slider.getValue()
