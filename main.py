@@ -1,54 +1,101 @@
 import pygame
 import sys
+from input_elements import InputBox
+import pygame_widgets
+from pygame_widgets.slider import Slider
+from pygame_widgets.textbox import TextBox
 
-# pygame setup
+#consts
+SCREEN_WIDTH = 1500
+SCREEN_HEIGHT = 800
+FPS = 60
+BACKGROUND_COLOR = "#35654d"
+TEXT_COLOR = (0, 0, 0)
+
+class Text:
+    def __init__(self, text, font, color, initial_y, initial_x, centered=True):
+        self.text = text
+        self.font = font
+        self.color = color
+        self.initial_y = initial_y
+        self.initial_x = initial_x
+        self.centered = centered
+        self.surface = self.font.render(self.text, True, self.color)
+        self.rect = self.surface.get_rect()
+        self.rect.y = self.initial_y
+        if self.centered:
+            pass
+        else:
+            self.rect.x = self.initial_x
+
+    def draw(self, screen):
+        if self.centered:
+            self.rect.centerx = screen.get_rect().centerx
+        screen.blit(self.surface, self.rect)
+
+#pygame setup
 pygame.init()
-initial_width = 1500
-initial_height = 800
-screen = pygame.display.set_mode((initial_width, initial_height), pygame.RESIZABLE)
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.RESIZABLE)
+pygame.display.set_caption("Blackjack Simulator Statistics")
 clock = pygame.time.Clock()
-pygame.display.set_caption("Blackjack Simulator")
+#default font
+text_font = pygame.font.SysFont("Arial", 50, bold=True)
+smaller_font = pygame.font.SysFont("Arial", 35, bold=True)
 
-text_font = pygame.font.SysFont("Times New Roman", 50, bold=True)
+#texts
+header_text = Text("BlackJack Simulator", text_font, TEXT_COLOR, 35, 0, True)
+table_heading2 = Text("Table", text_font, TEXT_COLOR, 155,0, True)
+startingcap_heading2 = Text("Starting Capital", smaller_font, TEXT_COLOR, 135, 200, False)
+decks_heading2 = Text("Decks", smaller_font, TEXT_COLOR, 275, 250, False)
+decks_output = TextBox(screen, 400, 200, 50, 50, font = smaller_font)
+players_heading2 = Text("Players", smaller_font, TEXT_COLOR, 400, 234, False)
+players_output = TextBox(screen, 400, 400, 50, 50, font = smaller_font)
 
-Header_Text = "BlackJack Simulator"
-text_col = (0, 0, 0)
+decks_output.disable()
+players_output.disable()
 
-# prerender of text
-text_surface = text_font.render(Header_Text, True, text_col)
-text_rect = text_surface.get_rect()
+#inputs
+startingcap_input = InputBox(40, 138, 140, 35, 30, " ")
+deck_slider = Slider(screen, 150, 275, 800, 40, min=1, max=7)
+player_slider = Slider(screen, 150, 400, 800, 40, min=0, max=7)
 
-
-
-
-def draw_text():
-    # centerx calculates centering Header
-    text_rect.centerx = screen.get_rect().centerx
-    # y-pos fixed
-    text_rect.y = 35
-
-    screen.blit(text_surface, text_rect)
-
-
+#game
 running = True
 while running:
-    for event in pygame.event.get():
+    events = pygame.event.get()
+    for event in events:
         if event.type == pygame.QUIT:
+            pygame.quit()
             running = False
+            quit()
         elif event.type == pygame.VIDEORESIZE:
-            # Update screen dimensions
             new_width, new_height = event.size
             screen = pygame.display.set_mode((new_width, new_height), pygame.RESIZABLE)
 
-    # fill color to wipe anything from last frame
-    screen.fill("#35654d")
+        startingcap_input.handle_event(event)
 
-    # Call the updated draw function
-    draw_text()
-    # Render Game Here
+    decks_output.setText(deck_slider.getValue())
+    players_output.setText(player_slider.getValue())
 
-    # flip() the display to put your work on screen
+    #draws
+    screen.fill(BACKGROUND_COLOR)
+        #texts
+    header_text.draw(screen)
+    table_heading2.draw(screen)
+    startingcap_heading2.draw(screen)
+    decks_heading2.draw(screen)
+    players_heading2.draw(screen)
+        #input boxes
+    startingcap_input.draw(screen)
+
+    #render game
+
+    #update display
+    pygame_widgets.update(events)
+    pygame.display.update()
     pygame.display.flip()
 
-    clock.tick(60)  # limits fps to 60
-pygame.quit()
+
+    #frame limit
+    clock.tick(FPS)
+
