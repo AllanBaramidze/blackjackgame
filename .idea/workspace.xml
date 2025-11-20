@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7310d2d4-2a9b-4de5-a06c-f17911ade3b1" name="Changes" comment="organized some files, working on inputbox/slider using pygame widgets might refactor input file to store all the inputs and text">
-      <change afterPath="$PROJECT_DIR$/.idea/webResources.xml" afterDir="false" />
+    <list default="true" id="7310d2d4-2a9b-4de5-a06c-f17911ade3b1" name="Changes" comment="rearranged">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UI/input_elements.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/input_elements.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
@@ -89,7 +88,7 @@
       <workItem from="1763093759926" duration="3185000" />
       <workItem from="1763510871684" duration="1063000" />
       <workItem from="1763511942130" duration="2832000" />
-      <workItem from="1763598690221" duration="24803000" />
+      <workItem from="1763598690221" duration="27156000" />
     </task>
     <task id="LOCAL-00001" summary="organized some files, working on inputbox/slider using pygame widgets might refactor input file to store all the inputs and text">
       <option name="closed" value="true" />
@@ -99,7 +98,15 @@
       <option name="project" value="LOCAL" />
       <updated>1763618730709</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="rearranged">
+      <option name="closed" value="true" />
+      <created>1763664560019</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1763664560019</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -107,10 +114,11 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="organized some files, working on inputbox/slider using pygame widgets might refactor input file to store all the inputs and text" />
-    <option name="LAST_COMMIT_MESSAGE" value="organized some files, working on inputbox/slider using pygame widgets might refactor input file to store all the inputs and text" />
+    <MESSAGE value="rearranged" />
+    <option name="LAST_COMMIT_MESSAGE" value="rearranged" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/blackjackgame$main.coverage" NAME="main Coverage Results" MODIFIED="1763660532085" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/blackjackgame$main.coverage" NAME="main Coverage Results" MODIFIED="1763666907016" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/blackjackgame$input_elements.coverage" NAME="input_elements Coverage Results" MODIFIED="1763608147613" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
   </component>
 </project>

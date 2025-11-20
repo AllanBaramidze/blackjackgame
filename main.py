@@ -2,6 +2,9 @@ import pygame
 import sys
 import pygame_widgets
 from input_elements import InputBox, Text, InputSlider
+from pygame_widgets.slider import Slider
+from pygame_widgets.button import Button
+from pygame_widgets.textbox import TextBox
 
 
 
@@ -22,7 +25,7 @@ clock = pygame.time.Clock()
 
 #fonts
 text_font = pygame.font.SysFont("Arial", 50, bold=True)
-smaller_font = pygame.font.SysFont("Arial", 35, bold=True)
+smaller_font = pygame.font.SysFont("Times New Roman", 45, bold=True)
 
 #texts
 header_text = Text("BlackJack Simulator", text_font, TEXT_COLOR, 35, 0, True)
@@ -32,13 +35,19 @@ decks_heading2 = Text("Decks", smaller_font, TEXT_COLOR, 275, 250, False)
 players_heading2 = Text("Players", smaller_font, TEXT_COLOR, 400, 234, False)
 
 #inputs
-startingcap_input = InputBox(40, 138, 140, 35, 30, " ")
+startingcap_input = InputBox(40, 138, 140, 35, smaller_font, " ")
 
-#slider
-slider_width = 800
-start_x = (SCREEN_WIDTH - slider_width) // 2
-center_y = SCREEN_HEIGHT // 2
-decks_slider = InputSlider(screen=screen,x = start_x,y = center_y,width = slider_width, height = 40, min_val = 1, max_val = 7, initial_value= 1)
+#slider for deck
+slider_width = 150
+deck_start_x = 40
+deck_start_y = 280
+decks_slider = InputSlider(screen=screen,x = deck_start_x,y = deck_start_y,width = slider_width, height = 40, min_val = 1, max_val = 8, initial_value= 1)
+
+#slider for players
+player_start_x = 40
+player_start_y = 410
+player_slider = InputSlider(screen=screen, x = player_start_x, y = player_start_y, width = slider_width, height = 40, min_val = 0, max_val = 7, initial_value= 0)
+
 
 
 #game
@@ -56,6 +65,7 @@ while running:
 
         startingcap_input.handle_event(event)
     current_deck = decks_slider.update_logic()
+    current_player = player_slider.update_logic()
 
 
 

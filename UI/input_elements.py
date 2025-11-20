@@ -42,7 +42,7 @@ class InputBox:
         self.rect = pygame.Rect(x, y, width, height)
         self.color = INACTIVE_COLOUR
         self.text = text
-        self.font = pygame.font.SysFont("Times New Roman", 10, bold=False)
+        self.font = pygame.font.SysFont("Times New Roman", 30, bold=False)
         self.max_length = 10
         self.text_surface = None
         self.active = False
@@ -86,7 +86,7 @@ class InputBox:
 class InputSlider:
     def __init__(self, screen, x, y, width, height, min_val, max_val, initial_value):
         self.slider = Slider(
-            screen = screen,
+            win = screen,
             x=x,
             y=y,
             width=width,
@@ -102,12 +102,12 @@ class InputSlider:
         output_x = x + width // 2 - 25 # centered above slider
         output_y = y - 60
         self.output_label = TextBox(
-            screen=screen,
+            win=screen,
             x=output_x,
             y=output_y,
             width=50,
             height=50,
-            fontSize=20,
+            fontSize=27,
             color=TEXT_COLOUR,
         )
 
@@ -123,3 +123,4 @@ class InputSlider:
 
     def get_value(self):
         return self.slider.getValue()
+
