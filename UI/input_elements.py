@@ -15,6 +15,11 @@ SLIDER_ACTIVE_COLOUR = (255, 165, 0) #orange
 SLIDER_HEIGHT = 8 #thickness of line
 HANDLE_SIZE = 16 #diameter of dot
 HOVER_TEXT_OFFSET = 30 #distance of text above handle
+    #toggle button
+SEAT_COUNT = 7
+BUTTON_WIDTH = 100
+BUTTON_HEIGHT = 60
+BUTTON_SPACING = 15
 
 class Text:
     def __init__(self, text, font, color, initial_y, initial_x, centered=True):
@@ -123,4 +128,49 @@ class InputSlider:
 
     def get_value(self):
         return self.slider.getValue()
+
+class PlayerToggleButton:
+    def __init__(self, screen, x, y, text):
+        self._is_active = False
+        self.window = screen
+        self.button = Button(
+            win = screen,
+            x=x,
+            y=y,
+            width=BUTTON_WIDTH,
+            height=BUTTON_HEIGHT,
+            text=text,
+            fontSize=30,
+            radius=10,
+            pressedColour= SLIDER_ACTIVE_COLOUR,
+            inactiveColour=OUTLINE_COLOUR,
+            hoverColour=INACTIVE_COLOUR,
+            onClick=self._toggle_state
+        )
+    def _set_visual_state(self, is_active):
+        if is_active:
+            self.button.inactiveColour = SLIDER_ACTIVE_COLOUR
+            self.button.hoverColour = INACTIVE_COLOUR
+            self.button.pressedColour = INACTIVE_COLOUR
+        else:
+            self.button.inactiveColour = OUTLINE_COLOUR
+            self.button.hoverColour = SLIDER_ACTIVE_COLOUR
+            self.button.pressedColour = INACTIVE_COLOUR
+
+
+    def _toggle_state(self):
+        if not self._is_active:
+            self._is_active = True
+            self._set_visual_state(True)
+        else:
+            self.deactivate()
+
+    def deactivate(self):
+        if self._is_active:
+            self._is_active = False
+            self._set_visual_state(False)
+
+    def is_active(self):
+        return self._is_active
+
 
