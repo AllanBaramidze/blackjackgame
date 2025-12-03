@@ -2,6 +2,7 @@ import pygame
 import sys
 import pygame_widgets
 from input_elements import InputBox, Text, InputSlider, PlayerToggleButton
+from consts import *
 from pygame_widgets.slider import Slider
 from pygame_widgets.button import Button
 from pygame_widgets.textbox import TextBox
@@ -20,6 +21,7 @@ TEXT_COLOR = (0, 0, 0)
 #pygame setup
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.RESIZABLE)
+gamescreen =pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.RESIZABLE)
 pygame.display.set_caption("Blackjack Simulator Statistics")
 clock = pygame.time.Clock()
 
@@ -49,17 +51,45 @@ player_start_x = 40
 player_start_y = 410
 player_slider = InputSlider(screen=screen, x = player_start_x, y = player_start_y, width = slider_width, height = 40, min_val = 0, max_val = 7, initial_value= 0)
 
+
+#Empty grouped list for player seats
+seat_selection_group = []
+
 #Toggle Seat Buttons
-BTN_seat1 = PlayerToggleButton(screen, 500, 200, "1" )
-BTN_seat2 = PlayerToggleButton(screen, 550, 270, "2" )
-BTN_seat3 = PlayerToggleButton(screen, 620, 340, "3" )
-BTN_seat4 = PlayerToggleButton(screen, 700, 410, "4" )
-BTN_seat5 = PlayerToggleButton(screen, 780, 340, "5" )
-BTN_seat6 = PlayerToggleButton(screen, 850, 270, "6" )
-BTN_seat7 = PlayerToggleButton(screen, 900, 200, "7" )
+BTN_seat1 = PlayerToggleButton(screen, 500, 200, "1", seat_selection_group )
+BTN_seat2 = PlayerToggleButton(screen, 550, 270, "2", seat_selection_group)
+BTN_seat3 = PlayerToggleButton(screen, 620, 340, "3", seat_selection_group)
+BTN_seat4 = PlayerToggleButton(screen, 700, 410, "4", seat_selection_group)
+BTN_seat5 = PlayerToggleButton(screen, 780, 340, "5", seat_selection_group)
+BTN_seat6 = PlayerToggleButton(screen, 850, 270, "6", seat_selection_group)
+BTN_seat7 = PlayerToggleButton(screen, 900, 200, "7", seat_selection_group)
+
+BTN_seat1.activate()
+
+game_state = "MENU"
+
+def start_game():
+    global game_state
+    game_state = "GAME"
+
+btn_begin = Button(win=screen,x=1000, y=600,width=200, height=60,text="BEGIN",fontSize=40,radius=15,
+    pressedColour=(0, 200, 0),
+    inactiveColour=(0, 150, 0),
+    hoverColour=(50, 255, 50),
+    onClick=start_game
+)
+
+def back_to_menu_action():
+    global game_state
+    game_state = "MENU"
 
 
-
+btn_back = Button(win=gamescreen,x=10, y=10,width=100, height=40,text="BACK",fontSize=20, radius=10,
+    pressedColour=(200, 0, 0),
+    inactiveColour=(150, 0, 0),
+    hoverColour=(255, 50, 50),
+    onClick=back_to_menu_action
+)
 
 
 #game
@@ -68,40 +98,56 @@ while running:
     events = pygame.event.get()
     for event in events:
         if event.type == pygame.QUIT:
-            pygame.quit()
             running = False
-            quit()
         elif event.type == pygame.VIDEORESIZE:
             new_width, new_height = event.size
             screen = pygame.display.set_mode((new_width, new_height), pygame.RESIZABLE)
+        if game_state == "MENU":
+            startingcap_input.handle_event(event)
 
-        startingcap_input.handle_event(event)
-    current_deck = decks_slider.update_logic()
-    current_player = player_slider.update_logic()
+    if game_state == "MENU":
+        current_deck = decks_slider.update_logic()
+        current_player = player_slider.update_logic()
+            #draws
+        screen.fill(BACKGROUND_COLOR)
 
+            #texts
+        header_text.draw(screen)
+        table_heading2.draw(screen)
+        startingcap_heading2.draw(screen)
+        decks_heading2.draw(screen)
+        players_heading2.draw(screen)
+        settings_heading2.draw(screen)
+            #input boxes
+        startingcap_input.draw(screen)
+            #update display
+        pygame_widgets.update(events)
 
+    # render game
+    elif game_state == "GAME":
 
-
-    #draws
-    screen.fill(BACKGROUND_COLOR)
+        #draws
+        screen.fill(BACKGROUND_COLOR)
+        #backbtn
         #texts
-    header_text.draw(screen)
-    table_heading2.draw(screen)
-    startingcap_heading2.draw(screen)
-    decks_heading2.draw(screen)
-    players_heading2.draw(screen)
-    settings_heading2.draw(screen)
-        #input boxes
-    startingcap_input.draw(screen)
+        font = pygame.font.SysFont(None, 60)
+        game_text = font.render("GAME STARTED!", True, (255, 255, 255))
+        screen.blit(game_text, (300, 300))
 
-    #render game
 
-    #update display
-    pygame_widgets.update(events)
+
+
+
+
+
+
+
     pygame.display.update()
     pygame.display.flip()
 
 
     #frame limit
     clock.tick(FPS)
+
+
 

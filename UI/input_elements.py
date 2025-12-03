@@ -130,9 +130,11 @@ class InputSlider:
         return self.slider.getValue()
 
 class PlayerToggleButton:
-    def __init__(self, screen, x, y, text):
+    def __init__(self, screen, x, y, text, group):
         self._is_active = False
         self.window = screen
+        self.group = group
+        self.group.append(self)
         self.button = Button(
             win = screen,
             x=x,
@@ -159,18 +161,27 @@ class PlayerToggleButton:
 
 
     def _toggle_state(self):
-        if not self._is_active:
-            self._is_active = True
-            self._set_visual_state(True)
-        else:
-            self.deactivate()
+        if self._is_active:
+            return
+        for btn in self.group:
+            if btn != self:
+                btn.deactivate()
+        self._is_active = True
+        self._set_visual_state(True)
 
     def deactivate(self):
         if self._is_active:
             self._is_active = False
             self._set_visual_state(False)
 
+    def activate(self):
+        self._toggle_state()
+
     def is_active(self):
         return self._is_active
 
+class GameStateManager:
+    def __init__(self):
+        self.current_state = "MENU"
+        self.game_settings = {}
 
