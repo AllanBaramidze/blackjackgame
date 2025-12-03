@@ -180,8 +180,3 @@ class PlayerToggleButton:
     def is_active(self):
         return self._is_active
 
-class GameStateManager:
-    def __init__(self):
-        self.current_state = "MENU"
-        self.game_settings = {}
-
